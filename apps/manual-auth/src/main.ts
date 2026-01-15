@@ -1,7 +1,7 @@
 import dotenv from 'dotenv';
 dotenv.config();
 
-import { Logger } from '@nestjs/common';
+import { Logger, ValidationPipe } from '@nestjs/common';
 import { NestFactory } from '@nestjs/core';
 import { AppModule } from '@/app.module';
 import { ConfigService } from '@nestjs/config';
@@ -34,13 +34,18 @@ async function bootstrap() {
       secret: config.getOrThrow<string>(envNames.SESSION_SECRET),
       saveUninitialized: false,
       store: new RedisStore({ client: redis, prefix: 'manual-auth:sess:' }),
+      resave: false,
     }),
   );
+
+  app.useGlobalPipes(new ValidationPipe({ whitelist: true }));
 
   const port = config.getOrThrow<number>(envNames.PORT);
   const host = config.get<string>(envNames.HOST) || 'localhost';
   await app.listen(port);
-  Logger.log(`🚀 Application is running on: http://${host}:${port}`);
+  if (host === 'localhost')
+    Logger.log(`🚀 Application is running on: http://${host}:${port}`);
+  else Logger.log(`🚀 Application is running on: http://${host}`);
 }
 
 bootstrap();

@@ -3,6 +3,7 @@
   "version": "0.0.0",
   "license": "MIT",
   "scripts": {
+    "server:dev": "nx serve manual-auth --no-tui",
     "server:dev:up": "docker compose -f ./docker-compose.dev.yml up -d",
     "server:db:generate": "npx nx run @full-auth/manual-auth:db-generate",
     "server:db:migrate:prod": "npx nx run @full-auth/manual-auth:db-migrate --configuration=prod",
@@ -11,15 +12,20 @@
   "private": true,
   "dependencies": {
     "@nestjs-modules/mailer": "^2.0.2",
+    "@nestjs/class-validator": "^0.13.4",
     "@nestjs/common": "^11.0.0",
     "@nestjs/config": "^4.0.2",
     "@nestjs/core": "^11.0.0",
+    "@nestjs/jwt": "^11.0.2",
     "@nestjs/platform-express": "^11.0.0",
     "@prisma/adapter-pg": "^7.2.0",
     "@prisma/client": "^7.2.0",
     "@react-email/components": "^1.0.4",
     "@react-email/render": "^2.0.2",
-    "axios": "^1.6.0",
+    "argon2": "^0.44.0",
+    "axios": "^1.13.2",
+    "class-transformer": "^0.5.1",
+    "class-validator": "^0.14.3",
     "connect-redis": "^9.0.0",
     "cookie-parser": "^1.4.7",
     "express-session": "^1.18.2",
@@ -29,7 +35,8 @@
     "react": "^19.2.3",
     "react-mail": "^0.0.1",
     "reflect-metadata": "^0.1.13",
-    "rxjs": "^7.8.0"
+    "rxjs": "^7.8.0",
+    "uuid": "^13.0.0"
   },
   "devDependencies": {
     "@eslint/js": "^9.8.0",

@@ -7,14 +7,25 @@ import {
 } from '@nestjs/common';
 import { render } from '@react-email/render';
 import { ResetPasswordTemplate } from './templates/reset-password.template';
+import { ConfigService } from '@nestjs/config';
+import { envNames } from '@/constants';
 
 @Injectable()
 export class MailService {
   logger = new Logger(MailService.name);
 
-  constructor(private readonly mailerService: MailerService) {}
+  constructor(
+    private readonly mailerService: MailerService,
+    private readonly configService: ConfigService,
+  ) {}
 
-  async sendConfirmationEmail(to: string, domain: string, token: string) {
+  async sendConfirmationEmail(to: string, token: string) {
+    const domain = this.configService.get<string>(envNames.DOMAIN);
+    if (!domain) {
+      throw new InternalServerErrorException(
+        'DOMAIN is not set in environment variables',
+      );
+    }
     const html = await render(ConfirmationTemplate({ domain, token }));
     return this.sendMail(to, 'Активация аккаунта', html);
   }
