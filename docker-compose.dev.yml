@@ -1,0 +1,32 @@
+services:
+  db:
+    image: postgres:17
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+      POSTGRES_DB: manual-auth
+    ports:
+      - "5432:5432"
+    volumes:
+      - manual-auth-data:/var/lib/postgresql/data
+    networks:
+      - dev
+
+  redis:
+    image: redis:7
+    environment:
+      REDIS_PASSWORD: password
+    command: ["redis-server", "--requirepass", "password"]
+    ports:
+      - "6379:6379"
+    volumes:
+      - redis-data:/data
+    networks:
+      - dev
+
+volumes:
+  manual-auth-data:
+  redis-data:
+
+networks:
+  dev:

@@ -4,10 +4,10 @@
   "files": [],
   "references": [
     {
-      "path": "./apps/manual-auth-e2e"
+      "path": "./apps/manual-auth"
     },
     {
-      "path": "./apps/manual-auth"
+      "path": "./libs/common"
     }
   ]
 }

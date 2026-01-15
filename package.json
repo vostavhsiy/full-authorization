@@ -2,13 +2,32 @@
   "name": "@full-auth/source",
   "version": "0.0.0",
   "license": "MIT",
-  "scripts": {},
+  "scripts": {
+    "server:dev:up": "docker compose -f ./docker-compose.dev.yml up -d",
+    "server:db:generate": "npx nx run @full-auth/manual-auth:db-generate",
+    "server:db:migrate:prod": "npx nx run @full-auth/manual-auth:db-migrate --configuration=prod",
+    "dev:email": "npx nx run @full-auth/manual-auth:dev-email"
+  },
   "private": true,
   "dependencies": {
+    "@nestjs-modules/mailer": "^2.0.2",
     "@nestjs/common": "^11.0.0",
+    "@nestjs/config": "^4.0.2",
     "@nestjs/core": "^11.0.0",
     "@nestjs/platform-express": "^11.0.0",
+    "@prisma/adapter-pg": "^7.2.0",
+    "@prisma/client": "^7.2.0",
+    "@react-email/components": "^1.0.4",
+    "@react-email/render": "^2.0.2",
     "axios": "^1.6.0",
+    "connect-redis": "^9.0.0",
+    "cookie-parser": "^1.4.7",
+    "express-session": "^1.18.2",
+    "ioredis": "^5.9.1",
+    "nodemailer": "^7.0.12",
+    "prisma": "^7.2.0",
+    "react": "^19.2.3",
+    "react-mail": "^0.0.1",
     "reflect-metadata": "^0.1.13",
     "rxjs": "^7.8.0"
   },
@@ -28,6 +47,9 @@
     "@swc-node/register": "~1.9.1",
     "@swc/core": "~1.5.7",
     "@swc/helpers": "~0.5.11",
+    "@types/cookie-parser": "^1.4.10",
+    "@types/cors": "^2.8.19",
+    "@types/express-session": "^1.18.2",
     "@types/node": "20.19.9",
     "eslint": "^9.8.0",
     "eslint-config-prettier": "^10.0.0",
@@ -39,6 +61,7 @@
     "webpack-cli": "^5.1.4"
   },
   "workspaces": [
-    "apps/*"
+    "apps/*",
+    "libs/*"
   ]
 }

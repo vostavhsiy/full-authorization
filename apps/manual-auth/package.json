@@ -80,12 +80,34 @@
           "build",
           "prune"
         ]
+      },
+      "db-generate": {
+        "executor": "nx:run-commands",
+        "options": {
+          "command": "npx prisma generate",
+          "cwd": "apps/manual-auth"
+        }
+      },
+      "db-migrate": {
+        "executor": "nx:run-commands",
+        "configurations": {
+          "dev": {
+            "command": "npx prisma migrate dev"
+          },
+          "prod": {
+            "command": "npx prisma migrate deploy"
+          }
+        },
+        "options": {
+          "cwd": "apps/manual-auth"
+        }
       }
     }
   },
   "dependencies": {
     "@nestjs/common": "^11.0.0",
     "@nestjs/core": "^11.0.0",
+    "@nestjs/mapped-types": "*",
     "@nestjs/platform-express": "^11.0.0",
     "reflect-metadata": "^0.1.13",
     "rxjs": "^7.8.0",
