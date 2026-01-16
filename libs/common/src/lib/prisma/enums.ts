@@ -24,3 +24,11 @@ export const TokenType = {
 } as const
 
 export type TokenType = (typeof TokenType)[keyof typeof TokenType]
+
+
+export const Roles = {
+  USER: 'USER',
+  ADMIN: 'ADMIN'
+} as const
+
+export type Roles = (typeof Roles)[keyof typeof Roles]

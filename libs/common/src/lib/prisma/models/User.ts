@@ -30,7 +30,8 @@ export type UserMinAggregateOutputType = {
   password: string | null
   avatarUrl: string | null
   isEmailVerified: boolean | null
-  isTwoFactorEnabled: boolean | null
+  twoFactorSecret: string | null
+  role: $Enums.Roles | null
   createdAt: Date | null
   updatedAt: Date | null
 }
@@ -41,7 +42,8 @@ export type UserMaxAggregateOutputType = {
   password: string | null
   avatarUrl: string | null
   isEmailVerified: boolean | null
-  isTwoFactorEnabled: boolean | null
+  twoFactorSecret: string | null
+  role: $Enums.Roles | null
   createdAt: Date | null
   updatedAt: Date | null
 }
@@ -52,7 +54,8 @@ export type UserCountAggregateOutputType = {
   password: number
   avatarUrl: number
   isEmailVerified: number
-  isTwoFactorEnabled: number
+  twoFactorSecret: number
+  role: number
   createdAt: number
   updatedAt: number
   _all: number
@@ -65,7 +68,8 @@ export type UserMinAggregateInputType = {
   password?: true
   avatarUrl?: true
   isEmailVerified?: true
-  isTwoFactorEnabled?: true
+  twoFactorSecret?: true
+  role?: true
   createdAt?: true
   updatedAt?: true
 }
@@ -76,7 +80,8 @@ export type UserMaxAggregateInputType = {
   password?: true
   avatarUrl?: true
   isEmailVerified?: true
-  isTwoFactorEnabled?: true
+  twoFactorSecret?: true
+  role?: true
   createdAt?: true
   updatedAt?: true
 }
@@ -87,7 +92,8 @@ export type UserCountAggregateInputType = {
   password?: true
   avatarUrl?: true
   isEmailVerified?: true
-  isTwoFactorEnabled?: true
+  twoFactorSecret?: true
+  role?: true
   createdAt?: true
   updatedAt?: true
   _all?: true
@@ -171,7 +177,8 @@ export type UserGroupByOutputType = {
   password: string | null
   avatarUrl: string | null
   isEmailVerified: boolean
-  isTwoFactorEnabled: boolean
+  twoFactorSecret: string | null
+  role: $Enums.Roles
   createdAt: Date
   updatedAt: Date
   _count: UserCountAggregateOutputType | null
@@ -203,7 +210,8 @@ export type UserWhereInput = {
   password?: Prisma.StringNullableFilter<"User"> | string | null
   avatarUrl?: Prisma.StringNullableFilter<"User"> | string | null
   isEmailVerified?: Prisma.BoolFilter<"User"> | boolean
-  isTwoFactorEnabled?: Prisma.BoolFilter<"User"> | boolean
+  twoFactorSecret?: Prisma.StringNullableFilter<"User"> | string | null
+  role?: Prisma.EnumRolesFilter<"User"> | $Enums.Roles
   createdAt?: Prisma.DateTimeFilter<"User"> | Date | string
   updatedAt?: Prisma.DateTimeFilter<"User"> | Date | string
   accounts?: Prisma.AccountListRelationFilter
@@ -215,7 +223,8 @@ export type UserOrderByWithRelationInput = {
   password?: Prisma.SortOrderInput | Prisma.SortOrder
   avatarUrl?: Prisma.SortOrderInput | Prisma.SortOrder
   isEmailVerified?: Prisma.SortOrder
-  isTwoFactorEnabled?: Prisma.SortOrder
+  twoFactorSecret?: Prisma.SortOrderInput | Prisma.SortOrder
+  role?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
   accounts?: Prisma.AccountOrderByRelationAggregateInput
@@ -230,7 +239,8 @@ export type UserWhereUniqueInput = Prisma.AtLeast<{
   password?: Prisma.StringNullableFilter<"User"> | string | null
   avatarUrl?: Prisma.StringNullableFilter<"User"> | string | null
   isEmailVerified?: Prisma.BoolFilter<"User"> | boolean
-  isTwoFactorEnabled?: Prisma.BoolFilter<"User"> | boolean
+  twoFactorSecret?: Prisma.StringNullableFilter<"User"> | string | null
+  role?: Prisma.EnumRolesFilter<"User"> | $Enums.Roles
   createdAt?: Prisma.DateTimeFilter<"User"> | Date | string
   updatedAt?: Prisma.DateTimeFilter<"User"> | Date | string
   accounts?: Prisma.AccountListRelationFilter
@@ -242,7 +252,8 @@ export type UserOrderByWithAggregationInput = {
   password?: Prisma.SortOrderInput | Prisma.SortOrder
   avatarUrl?: Prisma.SortOrderInput | Prisma.SortOrder
   isEmailVerified?: Prisma.SortOrder
-  isTwoFactorEnabled?: Prisma.SortOrder
+  twoFactorSecret?: Prisma.SortOrderInput | Prisma.SortOrder
+  role?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
   _count?: Prisma.UserCountOrderByAggregateInput
@@ -259,7 +270,8 @@ export type UserScalarWhereWithAggregatesInput = {
   password?: Prisma.StringNullableWithAggregatesFilter<"User"> | string | null
   avatarUrl?: Prisma.StringNullableWithAggregatesFilter<"User"> | string | null
   isEmailVerified?: Prisma.BoolWithAggregatesFilter<"User"> | boolean
-  isTwoFactorEnabled?: Prisma.BoolWithAggregatesFilter<"User"> | boolean
+  twoFactorSecret?: Prisma.StringNullableWithAggregatesFilter<"User"> | string | null
+  role?: Prisma.EnumRolesWithAggregatesFilter<"User"> | $Enums.Roles
   createdAt?: Prisma.DateTimeWithAggregatesFilter<"User"> | Date | string
   updatedAt?: Prisma.DateTimeWithAggregatesFilter<"User"> | Date | string
 }
@@ -270,7 +282,8 @@ export type UserCreateInput = {
   password?: string | null
   avatarUrl?: string | null
   isEmailVerified?: boolean
-  isTwoFactorEnabled?: boolean
+  twoFactorSecret?: string | null
+  role?: $Enums.Roles
   createdAt?: Date | string
   updatedAt?: Date | string
   accounts?: Prisma.AccountCreateNestedManyWithoutUserInput
@@ -282,7 +295,8 @@ export type UserUncheckedCreateInput = {
   password?: string | null
   avatarUrl?: string | null
   isEmailVerified?: boolean
-  isTwoFactorEnabled?: boolean
+  twoFactorSecret?: string | null
+  role?: $Enums.Roles
   createdAt?: Date | string
   updatedAt?: Date | string
   accounts?: Prisma.AccountUncheckedCreateNestedManyWithoutUserInput
@@ -294,7 +308,8 @@ export type UserUpdateInput = {
   password?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   avatarUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   isEmailVerified?: Prisma.BoolFieldUpdateOperationsInput | boolean
-  isTwoFactorEnabled?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  twoFactorSecret?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  role?: Prisma.EnumRolesFieldUpdateOperationsInput | $Enums.Roles
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   accounts?: Prisma.AccountUpdateManyWithoutUserNestedInput
@@ -306,7 +321,8 @@ export type UserUncheckedUpdateInput = {
   password?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   avatarUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   isEmailVerified?: Prisma.BoolFieldUpdateOperationsInput | boolean
-  isTwoFactorEnabled?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  twoFactorSecret?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  role?: Prisma.EnumRolesFieldUpdateOperationsInput | $Enums.Roles
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   accounts?: Prisma.AccountUncheckedUpdateManyWithoutUserNestedInput
@@ -318,7 +334,8 @@ export type UserCreateManyInput = {
   password?: string | null
   avatarUrl?: string | null
   isEmailVerified?: boolean
-  isTwoFactorEnabled?: boolean
+  twoFactorSecret?: string | null
+  role?: $Enums.Roles
   createdAt?: Date | string
   updatedAt?: Date | string
 }
@@ -329,7 +346,8 @@ export type UserUpdateManyMutationInput = {
   password?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   avatarUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   isEmailVerified?: Prisma.BoolFieldUpdateOperationsInput | boolean
-  isTwoFactorEnabled?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  twoFactorSecret?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  role?: Prisma.EnumRolesFieldUpdateOperationsInput | $Enums.Roles
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
@@ -340,7 +358,8 @@ export type UserUncheckedUpdateManyInput = {
   password?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   avatarUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   isEmailVerified?: Prisma.BoolFieldUpdateOperationsInput | boolean
-  isTwoFactorEnabled?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  twoFactorSecret?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  role?: Prisma.EnumRolesFieldUpdateOperationsInput | $Enums.Roles
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
@@ -351,7 +370,8 @@ export type UserCountOrderByAggregateInput = {
   password?: Prisma.SortOrder
   avatarUrl?: Prisma.SortOrder
   isEmailVerified?: Prisma.SortOrder
-  isTwoFactorEnabled?: Prisma.SortOrder
+  twoFactorSecret?: Prisma.SortOrder
+  role?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
 }
@@ -362,7 +382,8 @@ export type UserMaxOrderByAggregateInput = {
   password?: Prisma.SortOrder
   avatarUrl?: Prisma.SortOrder
   isEmailVerified?: Prisma.SortOrder
-  isTwoFactorEnabled?: Prisma.SortOrder
+  twoFactorSecret?: Prisma.SortOrder
+  role?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
 }
@@ -373,7 +394,8 @@ export type UserMinOrderByAggregateInput = {
   password?: Prisma.SortOrder
   avatarUrl?: Prisma.SortOrder
   isEmailVerified?: Prisma.SortOrder
-  isTwoFactorEnabled?: Prisma.SortOrder
+  twoFactorSecret?: Prisma.SortOrder
+  role?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
 }
@@ -393,6 +415,10 @@ export type NullableStringFieldUpdateOperationsInput = {
 
 export type BoolFieldUpdateOperationsInput = {
   set?: boolean
+}
+
+export type EnumRolesFieldUpdateOperationsInput = {
+  set?: $Enums.Roles
 }
 
 export type DateTimeFieldUpdateOperationsInput = {
@@ -419,7 +445,8 @@ export type UserCreateWithoutAccountsInput = {
   password?: string | null
   avatarUrl?: string | null
   isEmailVerified?: boolean
-  isTwoFactorEnabled?: boolean
+  twoFactorSecret?: string | null
+  role?: $Enums.Roles
   createdAt?: Date | string
   updatedAt?: Date | string
 }
@@ -430,7 +457,8 @@ export type UserUncheckedCreateWithoutAccountsInput = {
   password?: string | null
   avatarUrl?: string | null
   isEmailVerified?: boolean
-  isTwoFactorEnabled?: boolean
+  twoFactorSecret?: string | null
+  role?: $Enums.Roles
   createdAt?: Date | string
   updatedAt?: Date | string
 }
@@ -457,7 +485,8 @@ export type UserUpdateWithoutAccountsInput = {
   password?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   avatarUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   isEmailVerified?: Prisma.BoolFieldUpdateOperationsInput | boolean
-  isTwoFactorEnabled?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  twoFactorSecret?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  role?: Prisma.EnumRolesFieldUpdateOperationsInput | $Enums.Roles
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
@@ -468,7 +497,8 @@ export type UserUncheckedUpdateWithoutAccountsInput = {
   password?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   avatarUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   isEmailVerified?: Prisma.BoolFieldUpdateOperationsInput | boolean
-  isTwoFactorEnabled?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  twoFactorSecret?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  role?: Prisma.EnumRolesFieldUpdateOperationsInput | $Enums.Roles
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
@@ -510,7 +540,8 @@ export type UserSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = r
   password?: boolean
   avatarUrl?: boolean
   isEmailVerified?: boolean
-  isTwoFactorEnabled?: boolean
+  twoFactorSecret?: boolean
+  role?: boolean
   createdAt?: boolean
   updatedAt?: boolean
   accounts?: boolean | Prisma.User$accountsArgs<ExtArgs>
@@ -523,7 +554,8 @@ export type UserSelectCreateManyAndReturn<ExtArgs extends runtime.Types.Extensio
   password?: boolean
   avatarUrl?: boolean
   isEmailVerified?: boolean
-  isTwoFactorEnabled?: boolean
+  twoFactorSecret?: boolean
+  role?: boolean
   createdAt?: boolean
   updatedAt?: boolean
 }, ExtArgs["result"]["user"]>
@@ -534,7 +566,8 @@ export type UserSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensio
   password?: boolean
   avatarUrl?: boolean
   isEmailVerified?: boolean
-  isTwoFactorEnabled?: boolean
+  twoFactorSecret?: boolean
+  role?: boolean
   createdAt?: boolean
   updatedAt?: boolean
 }, ExtArgs["result"]["user"]>
@@ -545,12 +578,13 @@ export type UserSelectScalar = {
   password?: boolean
   avatarUrl?: boolean
   isEmailVerified?: boolean
-  isTwoFactorEnabled?: boolean
+  twoFactorSecret?: boolean
+  role?: boolean
   createdAt?: boolean
   updatedAt?: boolean
 }
 
-export type UserOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "email" | "password" | "avatarUrl" | "isEmailVerified" | "isTwoFactorEnabled" | "createdAt" | "updatedAt", ExtArgs["result"]["user"]>
+export type UserOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "email" | "password" | "avatarUrl" | "isEmailVerified" | "twoFactorSecret" | "role" | "createdAt" | "updatedAt", ExtArgs["result"]["user"]>
 export type UserInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   accounts?: boolean | Prisma.User$accountsArgs<ExtArgs>
   _count?: boolean | Prisma.UserCountOutputTypeDefaultArgs<ExtArgs>
@@ -569,7 +603,8 @@ export type $UserPayload<ExtArgs extends runtime.Types.Extensions.InternalArgs =
     password: string | null
     avatarUrl: string | null
     isEmailVerified: boolean
-    isTwoFactorEnabled: boolean
+    twoFactorSecret: string | null
+    role: $Enums.Roles
     createdAt: Date
     updatedAt: Date
   }, ExtArgs["result"]["user"]>
@@ -1001,7 +1036,8 @@ export interface UserFieldRefs {
   readonly password: Prisma.FieldRef<"User", 'String'>
   readonly avatarUrl: Prisma.FieldRef<"User", 'String'>
   readonly isEmailVerified: Prisma.FieldRef<"User", 'Boolean'>
-  readonly isTwoFactorEnabled: Prisma.FieldRef<"User", 'Boolean'>
+  readonly twoFactorSecret: Prisma.FieldRef<"User", 'String'>
+  readonly role: Prisma.FieldRef<"User", 'Roles'>
   readonly createdAt: Prisma.FieldRef<"User", 'DateTime'>
   readonly updatedAt: Prisma.FieldRef<"User", 'DateTime'>
 }

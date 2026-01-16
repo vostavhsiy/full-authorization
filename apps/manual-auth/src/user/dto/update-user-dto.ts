@@ -1,8 +1,12 @@
-import { IsNotEmpty } from 'class-validator';
+import { ApiProperty } from '@nestjs/swagger';
 
 export class UpdateUserDto {
-  @IsNotEmpty()
-  isTwoFactorEnabled?: boolean;
+  @ApiProperty()
+  twoFactorSecret?: string | null;
 
+  @ApiProperty()
+  isEmailVerified?: boolean;
+
+  @ApiProperty()
   avatarUrl?: string;
 }

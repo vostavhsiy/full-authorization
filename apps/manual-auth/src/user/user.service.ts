@@ -15,9 +15,7 @@ export class UserService {
   }
 
   async findByEmail(email: string) {
-    const user = await this.dbService.user.findUnique({ where: { email } });
-    if (!user) throw new NotFoundException();
-    return user;
+    return this.dbService.user.findUnique({ where: { email } });
   }
 
   async create(dto: CreateUserDto) {
@@ -27,6 +25,7 @@ export class UserService {
         email: dto.email,
         password,
         avatarUrl: dto.avatarUrl,
+        isEmailVerified: dto.isEmailVerified,
       },
     });
     return user;

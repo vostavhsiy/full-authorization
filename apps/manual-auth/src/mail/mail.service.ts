@@ -30,7 +30,13 @@ export class MailService {
     return this.sendMail(to, 'Активация аккаунта', html);
   }
 
-  async sendResetPasswordEmail(to: string, domain: string, token: string) {
+  async sendResetPasswordEmail(to: string, token: string) {
+    const domain = this.configService.get<string>(envNames.CLIENT_ORIGIN);
+    if (!domain) {
+      throw new InternalServerErrorException(
+        'DOMAIN is not set in environment variables',
+      );
+    }
     const html = await render(ResetPasswordTemplate({ domain, token }));
     return this.sendMail(to, 'Сброс пароля', html);
   }

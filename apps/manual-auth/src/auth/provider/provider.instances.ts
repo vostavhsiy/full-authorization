@@ -1,5 +1,15 @@
-import { BaseProvider } from './base-provider';
-import { ProviderOptions, UserInfo } from './types';
+import { BaseProvider } from './base-provider'
+import { ProviderOptions, UserInfo } from './types'
+
+interface GoogleUserInfo {
+  sub: string;
+  name: string;
+  given_name: string;
+  family_name: string;
+  picture: string;
+  email: string;
+  email_verified: boolean;
+}
 
 export class GoogleProvider extends BaseProvider {
   constructor(options: Pick<ProviderOptions, 'clientId' | 'clientSecret'>) {
@@ -14,7 +24,7 @@ export class GoogleProvider extends BaseProvider {
     });
   }
 
-  override extractUserInfo(data: any): UserInfo {
+  override extractUserInfo(data: GoogleUserInfo): UserInfo {
     return {
       id: data.sub,
       avatarUrl: data.picture,
@@ -22,6 +32,13 @@ export class GoogleProvider extends BaseProvider {
       provider: this.options.name,
     };
   }
+}
+
+interface GithubUserInfo {
+  id: number;
+  name: string;
+  avatar_url: string;
+  email: string;
 }
 
 export class GithubProvider extends BaseProvider {
@@ -37,10 +54,10 @@ export class GithubProvider extends BaseProvider {
     });
   }
 
-  override extractUserInfo(data: any): UserInfo {
+  override extractUserInfo(data: GithubUserInfo): UserInfo {
     return {
-      id: data.sub,
-      avatarUrl: data.picture,
+      id: String(data.id),
+      avatarUrl: data.avatar_url,
       email: data.email,
       provider: this.options.name,
     };

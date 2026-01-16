@@ -42,10 +42,12 @@ export class BaseProvider {
     try {
       const response = await axios.post<TokensResponse>(
         this.options.tokensUrl,
+        {},
         {
           params,
           headers: {
             'Content-Type': 'application/x-www-form-urlencoded',
+            Accept: 'application/json',
           },
         },
       );
@@ -57,11 +59,15 @@ export class BaseProvider {
         refresh_token_expires_in,
       } = response.data;
 
-      const userInfoResponse = await axios.post(this.options.userInfoUrl, {
-        headers: {
-          Authorization: `Bearer ${access_token}`,
+      const userInfoResponse = await axios.post(
+        this.options.userInfoUrl,
+        {},
+        {
+          headers: {
+            Authorization: `Bearer ${access_token}`,
+          },
         },
-      });
+      );
 
       return {
         ...this.extractUserInfo(userInfoResponse.data),
