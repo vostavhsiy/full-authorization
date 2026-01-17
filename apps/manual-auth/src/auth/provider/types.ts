@@ -15,11 +15,14 @@ export interface TokensResponse {
   refresh_token_expires_in?: number; // seconds
 }
 
-export interface UserInfo {
+export interface ExtractUserResponse {
   id: string;
   avatarUrl: string;
   email: string;
   provider: string;
+}
+
+export interface UserInfo extends ExtractUserResponse {
   accessToken: string;
   refreshToken?: string;
   expiresIn?: number; // seconds

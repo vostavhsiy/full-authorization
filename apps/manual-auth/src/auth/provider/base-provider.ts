@@ -1,5 +1,5 @@
 import { InternalServerErrorException } from '@nestjs/common';
-import { ProviderOptions, TokensResponse, UserInfo } from './types';
+import { ExtractUserResponse, ProviderOptions, TokensResponse } from './types';
 import axios from 'axios';
 
 export class BaseProvider {
@@ -23,7 +23,7 @@ export class BaseProvider {
     return `${this.BASE_URL}/oauth/${this.options.name}/callback`;
   }
 
-  extractUserInfo(data: any): UserInfo {
+  extractUserInfo(data: any): ExtractUserResponse {
     return {
       ...data,
       provider: this.options.name,
@@ -52,12 +52,7 @@ export class BaseProvider {
         },
       );
 
-      const {
-        access_token,
-        refresh_token,
-        expires_in,
-        refresh_token_expires_in,
-      } = response.data;
+      const { access_token, refresh_token, expires_in } = response.data;
 
       const userInfoResponse = await axios.post(
         this.options.userInfoUrl,

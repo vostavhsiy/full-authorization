@@ -1,5 +1,5 @@
-import { BaseProvider } from './base-provider'
-import { ProviderOptions, UserInfo } from './types'
+import { BaseProvider } from './base-provider';
+import { ExtractUserResponse, ProviderOptions } from './types';
 
 interface GoogleUserInfo {
   sub: string;
@@ -24,7 +24,7 @@ export class GoogleProvider extends BaseProvider {
     });
   }
 
-  override extractUserInfo(data: GoogleUserInfo): UserInfo {
+  override extractUserInfo(data: GoogleUserInfo): ExtractUserResponse {
     return {
       id: data.sub,
       avatarUrl: data.picture,
@@ -54,7 +54,7 @@ export class GithubProvider extends BaseProvider {
     });
   }
 
-  override extractUserInfo(data: GithubUserInfo): UserInfo {
+  override extractUserInfo(data: GithubUserInfo): ExtractUserResponse {
     return {
       id: String(data.id),
       avatarUrl: data.avatar_url,
