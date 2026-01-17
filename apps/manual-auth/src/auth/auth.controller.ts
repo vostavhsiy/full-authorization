@@ -1,15 +1,6 @@
 import { ConfigService } from '@nestjs/config';
 import type { Request, Response } from 'express';
-import {
-  Body,
-  Controller,
-  Get,
-  Param,
-  Post,
-  Query,
-  Req,
-  Res,
-} from '@nestjs/common';
+import { Body, Controller, Get, Post, Query, Req, Res } from '@nestjs/common';
 import { AuthService } from './auth.service';
 import { RegisterDto } from './dto/register.dto';
 import { LoginDto } from './dto/login.dto';
@@ -19,6 +10,8 @@ import { Authorized } from './decorators/authorized.decorator';
 import { Recaptcha } from '@nestlab/google-recaptcha';
 import { envNames } from '@/constants';
 import { Verify2FADto } from './dto/verify-2fa.dto';
+import { OAuthCallback } from './provider/decorators/user-info.decorator';
+import { OAuthUrl } from './provider/decorators/auth-url.decorator';
 
 @Controller()
 export class AuthController {
@@ -74,24 +67,18 @@ export class AuthController {
     return this.authService.logout(req);
   }
 
+  @OAuthUrl()
   @Get('oauth/:provider/url')
-  async getOAuthProviderUrl(
-    @Res({ passthrough: true }) res: Response,
-    @Param('provider') provider: string,
-  ) {
-    const { url } = await this.authService.getOAuthProviderUrl(provider);
-    return res.redirect(url);
-  }
+  async getOAuthProviderUrl() {}
 
+  @OAuthCallback()
   @Get('oauth/:provider/callback')
   async oauthCallback(
     @Req() req: Request,
     @Res({ passthrough: true }) res: Response,
-    @Param('provider') provider: string,
-    @Query('code') code: string,
   ) {
     try {
-      await this.authService.loginWithOAuth(req, provider, code);
+      await this.authService.loginWithOAuth(req, req.providerInfo!);
     } catch (error) {
       return res.redirect(
         this.configService.get(envNames.CLIENT_ORIGIN) +

@@ -71,10 +71,9 @@ export class BaseProvider {
 
       return {
         ...this.extractUserInfo(userInfoResponse.data),
-        access_token,
-        refresh_token,
-        expires_in,
-        refresh_token_expires_in,
+        accessToken: access_token,
+        refreshToken: refresh_token,
+        expiresIn: expires_in,
       };
     } catch (error) {
       throw new InternalServerErrorException(

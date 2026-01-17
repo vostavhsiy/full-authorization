@@ -20,4 +20,7 @@ export interface UserInfo {
   avatarUrl: string;
   email: string;
   provider: string;
+  accessToken: string;
+  refreshToken?: string;
+  expiresIn?: number; // seconds
 }

@@ -14,12 +14,12 @@ import { RegisterDto } from './dto/register.dto';
 import { LoginDto } from './dto/login.dto';
 import { hash, verify } from 'argon2';
 import { User } from '@full-auth/common';
-import { ProviderService } from './provider/provider.service';
 import { envNames } from '@/constants';
 import { ResetPasswordDto } from './dto/reset-password.dto';
 import * as speakeasy from 'speakeasy';
 import * as QRCode from 'qrcode';
 import { JwtService } from '@nestjs/jwt';
+import { UserInfo } from './provider/types';
 
 @Injectable()
 export class AuthService {
@@ -27,7 +27,6 @@ export class AuthService {
     private readonly dbService: DbService,
     private readonly userService: UserService,
     private readonly mailService: MailService,
-    private readonly providerService: ProviderService,
     private readonly configService: ConfigService,
     private readonly jwtService: JwtService,
   ) {}
@@ -211,24 +210,10 @@ export class AuthService {
     });
   }
 
-  async getOAuthProviderUrl(providerName: string) {
-    const provider = this.providerService.getProvider(providerName);
-    if (!provider) {
-      throw new BadRequestException('Неизвестный провайдер аутентификации');
-    }
-    return { url: provider.getAuthUrl() };
-  }
-
-  async loginWithOAuth(req: Request, providerName: string, code: string) {
-    const provider = this.providerService.getProvider(providerName);
-    if (!provider) {
-      throw new BadRequestException('Неизвестный провайдер аутентификации');
-    }
-    const userInfo = await provider.getUserFromCode(code);
-
+  async loginWithOAuth(req: Request, userInfo: UserInfo) {
     let account = await this.dbService.account.findFirst({
       where: {
-        provider: providerName,
+        provider: userInfo.provider,
         providerId: userInfo.id,
       },
     });
@@ -254,12 +239,12 @@ export class AuthService {
     if (!account) {
       await this.dbService.account.create({
         data: {
-          provider: providerName,
+          provider: userInfo.provider,
           providerId: userInfo.id,
-          accessToken: userInfo.access_token,
-          refreshToken: userInfo.refresh_token,
-          expiresAt: userInfo.expires_in
-            ? new Date(Date.now() + userInfo.expires_in * 1000)
+          accessToken: userInfo.accessToken,
+          refreshToken: userInfo.refreshToken,
+          expiresAt: userInfo.expiresIn
+            ? new Date(Date.now() + userInfo.expiresIn * 1000)
             : null,
           type: 'OAUTH',
           userId: user.id,
