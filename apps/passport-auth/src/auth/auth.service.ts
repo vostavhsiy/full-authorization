@@ -14,7 +14,6 @@ import { RegisterDto } from './dto/register.dto';
 import { LoginDto } from './dto/login.dto';
 import { hash, verify } from 'argon2';
 import { User } from '@full-auth/common';
-import { ProviderService } from './provider/provider.service';
 import { envNames } from '@/constants';
 import { ResetPasswordDto } from './dto/reset-password.dto';
 import * as speakeasy from 'speakeasy';
@@ -28,7 +27,6 @@ export class AuthService {
     private readonly dbService: DbService,
     private readonly userService: UserService,
     private readonly mailService: MailService,
-    private readonly providerService: ProviderService,
     private readonly configService: ConfigService,
     private readonly jwtService: JwtService,
   ) {}
@@ -210,14 +208,6 @@ export class AuthService {
         resolve({ message: 'Вы успешно вышли из системы' });
       });
     });
-  }
-
-  async getOAuthProviderUrl(providerName: string) {
-    const provider = this.providerService.getProvider(providerName);
-    if (!provider) {
-      throw new BadRequestException('Неизвестный провайдер аутентификации');
-    }
-    return { url: provider.getAuthUrl() };
   }
 
   async loginWithOAuth(req: Request, userInfo: UserInfo) {
