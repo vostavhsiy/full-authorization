@@ -4,21 +4,21 @@ import {
   Body,
   Controller,
   Get,
-  Param,
   Post,
   Query,
   Req,
   Res,
+  UseGuards,
 } from '@nestjs/common';
 import { AuthService } from './auth.service';
 import { RegisterDto } from './dto/register.dto';
-import { LoginDto } from './dto/login.dto';
 import { Auth } from './decorators/auth.decorator';
 import { ResetPasswordDto } from './dto/reset-password.dto';
 import { Authorized } from './decorators/authorized.decorator';
 import { Recaptcha } from '@nestlab/google-recaptcha';
 import { envNames } from '@/constants';
 import { Verify2FADto } from './dto/verify-2fa.dto';
+import { AuthGuard } from '@nestjs/passport';
 
 @Controller()
 export class AuthController {
@@ -39,10 +39,12 @@ export class AuthController {
     return this.authService.registerWithCredentials(dto);
   }
 
+  @UseGuards(AuthGuard('local'))
   @Recaptcha()
   @Post('auth/login')
-  login(@Req() req: Request, @Body() dto: LoginDto) {
-    return this.authService.loginWithCredentials(req, dto);
+  login(@Req() req: Request) {
+    if (req.user?.twoFactorRequired) return req.user;
+    return this.authService.saveSession(req, req.user!);
   }
 
   @Post('auth/send-verification')
@@ -74,24 +76,42 @@ export class AuthController {
     return this.authService.logout(req);
   }
 
-  @Get('oauth/:provider/url')
-  async getOAuthProviderUrl(
-    @Res({ passthrough: true }) res: Response,
-    @Param('provider') provider: string,
-  ) {
-    const { url } = await this.authService.getOAuthProviderUrl(provider);
-    return res.redirect(url);
-  }
+  @Get('oauth/github/url')
+  @UseGuards(AuthGuard('github'))
+  async githubLogin() {}
 
-  @Get('oauth/:provider/callback')
-  async oauthCallback(
+  @Get('oauth/google/url')
+  @UseGuards(AuthGuard('google'))
+  async googleLogin() {}
+
+  @Get('oauth/github/callback')
+  @UseGuards(AuthGuard('github'))
+  async githubCallback(
     @Req() req: Request,
     @Res({ passthrough: true }) res: Response,
-    @Param('provider') provider: string,
-    @Query('code') code: string,
   ) {
     try {
-      await this.authService.loginWithOAuth(req, provider, code);
+      await this.authService.loginWithOAuth(req, req.user!);
+    } catch (error) {
+      return res.redirect(
+        this.configService.get(envNames.CLIENT_ORIGIN) +
+          '/auth/login?error=true',
+      );
+    }
+
+    return res.redirect(
+      this.configService.get(envNames.CLIENT_ORIGIN) + '/dashboard/profile',
+    );
+  }
+
+  @Get('oauth/google/callback')
+  @UseGuards(AuthGuard('google'))
+  async googleCallback(
+    @Req() req: Request,
+    @Res({ passthrough: true }) res: Response,
+  ) {
+    try {
+      await this.authService.loginWithOAuth(req, req.user!);
     } catch (error) {
       return res.redirect(
         this.configService.get(envNames.CLIENT_ORIGIN) +

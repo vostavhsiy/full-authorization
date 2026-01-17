@@ -1,0 +1,66 @@
+generator client {
+  provider = "prisma-client"
+  output   = "../../../libs/common/src/lib/prisma"
+}
+
+datasource db {
+  provider = "postgresql"
+}
+
+model User {
+  id              String  @id @default(cuid())
+  email           String  @unique
+  password        String?
+  avatarUrl       String?
+  isEmailVerified Boolean @default(false)
+  twoFactorSecret String?
+
+  accounts Account[]
+
+  role Roles @default(USER)
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+model Account {
+  id         String      @id @default(cuid())
+  userId     String
+  providerId String
+  provider   String?
+  type       AccountType
+  expiresAt  DateTime?
+
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  accessToken  String?
+  refreshToken String?
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+model Token {
+  id        String    @id @default(cuid())
+  email     String    @unique
+  value     String
+  type      TokenType
+  expiresAt DateTime
+  createdAt DateTime  @default(now())
+}
+
+enum AccountType {
+  OAUTH
+  CREDENTIALS
+}
+
+enum TokenType {
+  EMAIL_VERIFICATION
+  PASSWORD_RESET
+  TWO_FACTOR_AUTH
+}
+
+enum Roles {
+  USER
+  ADMIN
+}
