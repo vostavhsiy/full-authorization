@@ -5,7 +5,6 @@ import {
   ProviderModuleOptions,
   PROVIDERS_OPTIONS_SYMBOL,
 } from './provider.constants';
-import { ConfigModule, ConfigService } from '@nestjs/config'
 
 @Module({})
 export class ProviderModule {
