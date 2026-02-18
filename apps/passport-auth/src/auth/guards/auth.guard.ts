@@ -33,6 +33,10 @@ export class AuthGuard implements CanActivate {
       isEmailVerified: user.isEmailVerified,
       createdAt: user.createdAt,
       updatedAt: user.updatedAt,
+      twoFactorRequired: !!user.twoFactorSecret,
+      accessToken: '',
+      refreshToken: '',
+      provider: 'local',
     };
 
     return true;
